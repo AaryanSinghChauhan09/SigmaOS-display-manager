@@ -1,59 +1,44 @@
-use anyhow::Result;
-use sigmaos_component::{Config, Service};
+use sigmaos_display_manager::{Config, DisplayManagerComponent, Greeter, GreeterState, LoginAttempt, Component};
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+#[test]
+fn test_greeter_initial_state_aaa() {
+    let greeter = Greeter::new("seat0");
+    assert_eq!(greeter.state(), &GreeterState::Waiting);
+    assert_eq!(greeter.seat(), "seat0");
+}
 
-    #[test]
-    fn test_display_manager_config_aaa() -> Result<()> {
-        // Arrange
-        let config = Config::default();
+#[test]
+fn test_greeter_login_success_aaa() {
+    let mut greeter = Greeter::new("seat0");
+    greeter.start_login(&LoginAttempt::new("alice", "wayland"));
+    assert_eq!(greeter.state(), &GreeterState::LoggedIn);
+}
 
-        // Act
-        let result = config.process();
+#[test]
+fn test_greeter_login_empty_user_fails_aaa() {
+    let mut greeter = Greeter::new("seat0");
+    greeter.start_login(&LoginAttempt::new("", "wayland"));
+    assert_eq!(greeter.state(), &GreeterState::Failed);
+}
 
-        // Assert
-        assert!(result.is_ok());
-        Ok(())
-    }
+#[test]
+fn test_greeter_logout_aaa() {
+    let mut greeter = Greeter::new("seat0");
+    greeter.start_login(&LoginAttempt::new("bob", "x11"));
+    greeter.logout();
+    assert_eq!(greeter.state(), &GreeterState::Waiting);
+}
 
-    #[test]
-    fn test_display_manager_custom_config_aaa() -> Result<()> {
-        // Arrange
-        let custom_config = Config::new("debug");
+#[test]
+fn test_component_lifecycle_aaa() {
+    let mut c = DisplayManagerComponent::new(Config::default());
+    assert!(c.initialize().is_ok());
+    assert!(c.health_check().is_ok());
+    assert!(c.shutdown().is_ok());
+}
 
-        // Act
-        let result = custom_config.process();
-
-        // Assert
-        assert!(result.is_ok());
-        Ok(())
-    }
-
-    #[test]
-    fn test_display_manager_service_lifecycle_aaa() -> Result<()> {
-        // Arrange
-        let config = Config::default();
-        let mut service = Service::new(config);
-        assert!(!service.is_running());
-
-        // Act & Assert - Start
-        service.start()?;
-        assert!(service.is_running());
-
-        // Act & Assert - Redundant start fails cleanly
-        let duplicate_start = service.start();
-        assert!(duplicate_start.is_err());
-
-        // Act & Assert - Stop
-        service.stop()?;
-        assert!(!service.is_running());
-
-        // Act & Assert - Redundant stop fails cleanly
-        let duplicate_stop = service.stop();
-        assert!(duplicate_stop.is_err());
-
-        Ok(())
-    }
+#[test]
+fn test_component_name_aaa() {
+    let c = DisplayManagerComponent::new(Config::default());
+    assert_eq!(c.name(), "sigmaos-display-manager");
 }

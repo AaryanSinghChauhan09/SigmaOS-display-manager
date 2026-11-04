@@ -1,22 +1,8 @@
-mod config;
-mod error;
-mod service;
-
-use config::Config;
-use service::Service;
-use anyhow::Result;
-
-fn main() -> Result<()> {
+use sigmaos_display_manager::{Config, DisplayManagerComponent, Component};
+fn main() {
     env_logger::init();
-    
-    let config = Config::default();
-    let mut service = Service::new(config);
-    
-    service.start()?;
-    println!("Service started successfully");
-    
-    service.stop()?;
-    println!("Service stopped successfully");
-    
-    Ok(())
+    let mut c = DisplayManagerComponent::new(Config::default());
+    if let Err(e) = c.initialize() { eprintln!("Failed: {}", e); std::process::exit(1); }
+    println!("SigmaOS display-manager running");
+    let _ = c.shutdown();
 }

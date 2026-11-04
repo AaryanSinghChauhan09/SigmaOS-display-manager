@@ -1,0 +1,8 @@
+[component]
+name = "SigmaOS-display-manager"
+version = "0.1.0"
+maturity = "alpha"
+tier = 5
+owner = "SigmaOS Team"
+purpose = "Wayland/X11 greeter and seat management for user login"
+dependencies = ["SigmaOS-session-manager"]
