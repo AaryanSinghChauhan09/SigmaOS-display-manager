@@ -1,9 +1,9 @@
 # SigmaOS-display-manager
 
-Display manager & login greeter launcher
+Display manager for SigmaOS inspired by SigmaOS Linux
 
-- **Category:** Desktop/UI
-- **Engine:** greeter
+- **Category:** Utilities
+- **Engine:** display_manager
 - **Language:** Rust
 
 ## Build & Test

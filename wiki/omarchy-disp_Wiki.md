@@ -1,7 +1,7 @@
 # SigmaOS-SigmaOS-display-manager Component Wiki
 
 ## Overview
-SigmaOS-SigmaOS-display-manager provides  for the SigmaOS operating system. It demonstrates the subsystem and integration within the SigmaOS ecosystem, following the principles of clear abstraction and deterministic initialization.
+SigmaOS-SigmaOS-display-manager provides Display/output manager (DRM connectors, modes, brightness) for the SigmaOS operating system. It demonstrates the subsystem and integration within the SigmaOS ecosystem, following the principles of clear abstraction and deterministic initialization.
 
 ## Principles
 - Single Responsibility
@@ -20,10 +20,10 @@ SigmaOS-SigmaOS-display-manager follows a SigmaOS-display-manager pattern:
 
 ## API
 The component provides the following public APIs:
-- `core::manage(SigmaOS-display-manager)` - Manage a SigmaOS-display-manager by given configuration
-- `core::register(SigmaOS-display-manager)` - Register a SigmaOS-display-manager by given name
-- `core::status::SigmaOS-display-manager()` - Get SigmaOS-display-manager status and SigmaOS-display-manager availability
-- `core::track::SigmaOS-display-manager()` - Track SigmaOS-display-manager management and SigmaOS-display-manager tracking
+-  - Manage a SigmaOS-display-manager by given configuration
+-  - Register a SigmaOS-display-manager by given name
+-  - Get SigmaOS-display-manager status and SigmaOS-display-manager availability
+-  - Track SigmaOS-display-manager management and SigmaOS-display-manager tracking
 - Error types for SigmaOS-display-manager failure scenarios or unsupported SigmaOS-display-manager types
 
 ## Test Structure (Arrange-Act-ASSERT)
@@ -33,24 +33,10 @@ All tests follow the AAA pattern:
 3. **Assert**: Verify the expected SigmaOS-display-manager results
 
 Example:
-```rust
-#[test]
-fn test_SigmaOS-display-manager_aaa() {
-    // Arrange
-    let SigmaOS-display-manager = SigmaOS-display-manager::new("my-SigmaOS-display-manager");
-    
-    // Act
-    let result = core::manage(SigmaOS-display-manager);
-    
-    // Assert
-    assert!(result.is_ok());
-    let managed = result.unwrap();
-    assert!(managed.is_managed());
-}
-```
+
 
 ## Development
-- Follows Rust best practices with `#![forbid(unsafe_code)]`
+- Follows Rust best practices with 
 - SigmaOS-display-manager initialization is best-effort; gracefully degrades on unsupported configurations
 - Comprehensive error types for all SigmaOS-display-manager failure scenarios
 - Unit tests provided for SigmaOS-display-manager management and configuration
